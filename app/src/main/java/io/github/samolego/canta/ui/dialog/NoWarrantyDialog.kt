@@ -36,7 +36,9 @@ fun NoWarrantyDialog(
     onProceed: (neverShowAgain: Boolean) -> Unit,
     onCancel: () -> Unit
 ) {
-    var neverShowAgain by rememberSaveable { mutableStateOf(false) }
+    var neverShowAgain by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     BasicAlertDialog(
         onDismissRequest = onCancel,
@@ -55,7 +57,7 @@ fun NoWarrantyDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    text = stringResource(R.string.disclaimer),
+                    text = "BACA!", //stringResource(R.string.disclaimer),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -63,14 +65,14 @@ fun NoWarrantyDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = stringResource(R.string.no_warranty_content),
+                    text = "Modder dari aplikasi ini tidak bertanggung jawab atas ketidaksengajaan dalam menghapus aplikasi sistem.", //stringResource(R.string.no_warranty_content),
                     style = MaterialTheme.typography.bodyMedium
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = stringResource(R.string.proceed_at_own_risk),
+                    text = "Gunakan aplikasi ini dengan resiko sendiri!", //stringResource(R.string.proceed_at_own_risk),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -87,7 +89,7 @@ fun NoWarrantyDialog(
                         }
                     )
                     Text(
-                        text = stringResource(R.string.never_show_again),
+                        text = "Jangan tampilkan lagi", //stringResource(R.string.never_show_again),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -105,7 +107,9 @@ fun NoWarrantyDialog(
                     }
 
                     TextButton(
-                        onClick = { onProceed(neverShowAgain) }
+                        onClick = {
+                            onProceed(neverShowAgain)
+                        }
                     ) {
                         Text(stringResource(R.string.proceed))
                     }

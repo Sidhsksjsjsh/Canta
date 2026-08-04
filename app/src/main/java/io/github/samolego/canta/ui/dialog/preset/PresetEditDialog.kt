@@ -54,12 +54,18 @@ private fun PresetDialog(
                         name = it
                         nameError = it.isBlank()
                     },
-                    label = { Text(stringResource(R.string.preset_name)) },
-                    placeholder = { Text(stringResource(R.string.preset_name_placeholder)) },
+                    label = {
+                        Text(stringResource(R.string.preset_name))
+                    },
+                    placeholder = {
+                        Text(stringResource(R.string.preset_name_placeholder))
+                    },
                     isError = nameError,
                     supportingText =
                     if (nameError) {
-                        { Text(stringResource(R.string.preset_name_missing_error)) }
+                        {
+                            Text(stringResource(R.string.preset_name_missing_error))
+                        }
                     } else null,
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
@@ -67,9 +73,14 @@ private fun PresetDialog(
 
                 OutlinedTextField(
                     value = description,
-                    onValueChange = { description = it },
-                    label = { Text(stringResource(R.string.optional_description)) },
-                    placeholder = { Text(stringResource(R.string.preset_description_placeholder)) },
+                    onValueChange = {
+                        description = it
+                    },
+                    label = {
+                        Text(stringResource(R.string.optional_description)) },
+                    placeholder = {
+                        Text(stringResource(R.string.preset_description_placeholder))
+                    },
                     modifier = Modifier.fillMaxWidth(),
                     maxLines = 3
                 )
@@ -113,7 +124,9 @@ fun PresetCreateDialog(
                 description = description,
                 apps = appListViewModel.appList.filter { it.isUninstalled }.map { it.packageName }
                     .toSet(),
-                onSuccess = { closeDialog() },
+                onSuccess = {
+                    closeDialog()
+                },
                 onError = {
                     Toast.makeText(
                         context,
@@ -144,7 +157,9 @@ fun PresetEditDialog(
                 oldPreset = preset,
                 newName = name,
                 newDescription = description,
-                onSuccess = { closeDialog() },
+                onSuccess = {
+                    closeDialog()
+                },
                 onError = {
                     Toast.makeText(
                         context,

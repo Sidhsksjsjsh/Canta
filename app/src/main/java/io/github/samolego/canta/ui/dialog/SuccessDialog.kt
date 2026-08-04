@@ -34,7 +34,8 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.net.toUri
 import io.github.samolego.canta.R
 
-private const val DONATE_URL = "https://www.paypal.com/donate/?hosted_button_id=FD4R46ZZ5EWME"
+private const val DONATE_URL = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092026080456995194" //"https://www.paypal.com/donate/?hosted_button_id=FD4R46ZZ5EWME"
+private const val DONATE_GOPAY = ""
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,7 +83,7 @@ fun SuccessDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = stringResource(R.string.canta_donate_request),
+                    text = "Tolong donasikan sebagian ko pu uang.", //stringResource(R.string.canta_donate_request),
                     style = MaterialTheme.typography.bodyMedium,
                 )
 
@@ -109,13 +110,13 @@ fun SuccessDialog(
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Text(stringResource(R.string.donate))
+                            Text("Dana") //stringResource(R.string.donate))
                             Icon(
-                                Icons.Default.Euro,
+                                if (Icons.Default.Rupiah) Icons.Default.Rupiah else Icons.Default.Rp,
                                 modifier = Modifier
                                     .padding(start = 4.dp)
                                     .size(12.dp),
-                                contentDescription = "Donate",
+                                contentDescription = "Donasi",
                             )
                         }
                     }
