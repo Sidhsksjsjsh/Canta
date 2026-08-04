@@ -48,8 +48,12 @@ class MainActivity : FragmentActivity() {
                         canResetAppToFactory = { packageName ->
                             checkIfCanResetToFactory(packageName)
                         },
-                        reinstallApp = { reinstallApp(it) },
-                        closeApp = { finishAndRemoveTask() },
+                        reinstallApp = {
+                            reinstallApp(it)
+                        },
+                        closeApp = {
+                            finishAndRemoveTask()
+                        },
                     )
                 }
             }

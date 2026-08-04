@@ -39,9 +39,15 @@ fun ImportPresetDialog(
     onImportFromClipboard: () -> Unit,
     onImportFromText: (String) -> Unit
 ) {
-    var selectedTab by remember { mutableStateOf(Tab.CLIPBOARD) }
-    var jsonText by remember { mutableStateOf("") }
-    var textError by remember { mutableStateOf(false) }
+    var selectedTab by remember {
+        mutableStateOf(Tab.CLIPBOARD)
+    }
+    var jsonText by remember {
+        mutableStateOf("")
+    }
+    var textError by remember {
+        mutableStateOf(false)
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -71,15 +77,27 @@ fun ImportPresetDialog(
                 ) {
                     Tab(
                         selected = selectedTab == Tab.CLIPBOARD,
-                        onClick = { selectedTab = Tab.CLIPBOARD },
-                        text = { Text(stringResource(R.string.clipboard)) },
-                        icon = { Icon(Icons.Default.ContentPaste, contentDescription = stringResource(R.string.clipboard)) }
+                        onClick = {
+                            selectedTab = Tab.CLIPBOARD
+                        },
+                        text = {
+                            Text(stringResource(R.string.clipboard))
+                        },
+                        icon = {
+                            Icon(Icons.Default.ContentPaste, contentDescription = stringResource(R.string.clipboard))
+                        }
                     )
                     Tab(
                         selected = selectedTab == Tab.TEXT,
-                        onClick = { selectedTab = Tab.TEXT },
-                        text = { Text(stringResource(R.string.text)) },
-                        icon = { Icon(Icons.Default.Download, contentDescription = stringResource(R.string.text)) }
+                        onClick = {
+                            selectedTab = Tab.TEXT
+                        },
+                        text = {
+                            Text(stringResource(R.string.text))
+                        },
+                        icon = {
+                            Icon(Icons.Default.Download, contentDescription = stringResource(R.string.text))
+                        }
                     )
                 }
 
@@ -125,10 +143,14 @@ fun ImportPresetDialog(
                                     jsonText = it
                                     textError = false
                                 },
-                                placeholder = { Text(stringResource(R.string.paste_preset_json_here)) },
+                                placeholder = {
+                                    Text(stringResource(R.string.paste_preset_json_here))
+                                },
                                 isError = textError,
                                 supportingText = if (textError) {
-                                    { Text(stringResource(R.string.enter_valid_json)) }
+                                    {
+                                        Text(stringResource(R.string.enter_valid_json))
+                                    }
                                 } else null,
                                 modifier = Modifier
                                     .fillMaxSize()

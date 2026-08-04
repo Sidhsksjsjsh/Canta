@@ -33,7 +33,9 @@ fun UninstallAppsDialog(
     onDismiss: () -> Unit,
     onAgree: (resetToFactory: Boolean) -> Unit,
 ) {
-    var resetToFactory by remember { mutableStateOf(false) }
+    var resetToFactory by remember {
+        mutableStateOf(false)
+    }
 
     BasicAlertDialog(
         modifier = Modifier
@@ -58,7 +60,9 @@ fun UninstallAppsDialog(
                 ) {
                     Checkbox(
                         checked = resetToFactory,
-                        onCheckedChange = { resetToFactory = it }
+                        onCheckedChange = {
+                            resetToFactory = it
+                        }
                     )
                     Text(
                         text = stringResource(R.string.reset_to_factory_version),
@@ -73,7 +77,9 @@ fun UninstallAppsDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 TextButton(
-                    onClick = { onAgree(resetToFactory) }
+                    onClick = {
+                        onAgree(resetToFactory)
+                    }
                 ) {
                     Text(stringResource(R.string.ok))
                 }

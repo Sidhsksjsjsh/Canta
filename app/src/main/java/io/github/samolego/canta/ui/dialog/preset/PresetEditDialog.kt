@@ -21,9 +21,15 @@ private fun PresetDialog(
     onDismiss: () -> Unit,
     onConfirm: (name: String, description: String) -> Unit
 ) {
-    var name by remember { mutableStateOf(initialName) }
-    var description by remember { mutableStateOf(initialDescription) }
-    var nameError by remember { mutableStateOf(false) }
+    var name by remember {
+        mutableStateOf(initialName)
+    }
+    var description by remember {
+        mutableStateOf(initialDescription)
+    }
+    var nameError by remember {
+        mutableStateOf(false)
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
