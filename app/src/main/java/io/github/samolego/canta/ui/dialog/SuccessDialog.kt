@@ -112,7 +112,7 @@ fun SuccessDialog(
                         ) {
                             Text("Dana") //stringResource(R.string.donate))
                             Icon(
-                                Icons.Default.AccountBalanceWallet,
+                                Icons.Default.Payments,
                                 modifier = Modifier
                                     .padding(start = 4.dp)
                                     .size(12.dp),
