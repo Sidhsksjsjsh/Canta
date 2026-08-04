@@ -179,7 +179,7 @@ fun CantaAppTileDemo() {
     AppTile(
             appInfo =
                     AppInfo(
-                            "Canta",
+                            "Canta | Modified By Fahri",
                             packageName = "io.github.samolego.canta",
                             isSystemApp = false,
                             isDisabled = false,
@@ -206,9 +206,8 @@ fun LongTileDemo() {
     AppTile(
             appInfo =
                     AppInfo(
-                            "Canta",
-                            packageName =
-                                    "very.long.package.name.that.should.overflow.and.maybe.it.will.overflow.even.2.lines",
+                            "Canta | Modified By Fahri",
+                            packageName = "very.long.package.name.that.should.overflow.and.maybe.it.will.overflow.even.2.lines",
                             isSystemApp = true,
                             isUninstalled = false,
                             versionCode = 1,
