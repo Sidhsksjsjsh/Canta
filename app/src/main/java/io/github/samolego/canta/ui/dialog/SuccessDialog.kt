@@ -112,7 +112,7 @@ fun SuccessDialog(
                         ) {
                             Text("Dana") //stringResource(R.string.donate))
                             Icon(
-                                if (Icons.Default.Rupiah) Icons.Default.Rupiah else Icons.Default.Rp,
+                                if (Icons.Default.Rupiah) Icons.Default.Rupiah else Icons.Default.AccountBalanceWallet,
                                 modifier = Modifier
                                     .padding(start = 4.dp)
                                     .size(12.dp),
