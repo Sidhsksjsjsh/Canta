@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Euro
+import androidx.compose.material.icons.filled.AccountBalanceWallet // here
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -112,7 +113,7 @@ fun SuccessDialog(
                         ) {
                             Text("Dana") //stringResource(R.string.donate))
                             Icon(
-                                Icons.Default.Wallet,
+                                Icons.Default.AccountBalanceWallet,
                                 modifier = Modifier
                                     .padding(start = 4.dp)
                                     .size(12.dp),
