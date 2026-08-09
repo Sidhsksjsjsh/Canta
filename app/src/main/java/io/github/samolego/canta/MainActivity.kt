@@ -139,14 +139,35 @@ class MainActivity : FragmentActivity() {
 
 
         return try {
-            HiddenApiBypass.invoke(
-                PackageInstaller::class.java,
-                packageInstaller,
-                "uninstall",
-                packageName,
-                flags,
-                intent.intentSender
-            )
+
+            try {
+                // Membuat Intent untuk memanggil InstallerX
+                val UninstallerIntent = Intent().apply {
+                    setPackage("com.rosan.installer")
+                    action = Intent.ACTION_DELETE // atau Intent.ACTION_VIEW untuk instalasi
+                    data = Uri.parse("package:$packageName")
+                }
+                applicationContext.startActivity(UninstallerIntent)
+            } catch (e: Exception) {
+                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Uninstaller")
+                HiddenApiBypass.invoke(
+                    PackageInstaller::class.java,
+                    packageInstaller,
+                    "uninstall",
+                    packageName,
+                    flags,
+                    intent.intentSender
+                )
+            }
+
+            //HiddenApiBypass.invoke(
+            //    PackageInstaller::class.java,
+            //    packageInstaller,
+            //    "uninstall",
+            //    packageName,
+            //    flags,
+            //    intent.intentSender
+            //)
             true
         } catch (e: Exception) {
             LogUtils.e(APP_NAME, "Failed to uninstall '$packageName'")
@@ -178,17 +199,40 @@ class MainActivity : FragmentActivity() {
         val installFlags = 0x00400000
 
         return try {
-            HiddenApiBypass.invoke(
-                IPackageInstaller::class.java,
-                ShizukuPackageInstallerUtils.getPrivilegedPackageInstaller(),
-                "installExistingPackage",
-                packageName,
-                installFlags,
-                installReason,
-                intent.intentSender,
-                0,
-                null
-            )
+            try {
+                // Membuat Intent untuk memanggil InstallerX
+                val InstallerIntent = Intent().apply {
+                    setPackage("com.rosan.installer")
+                    action = Intent.ACTION_VIEW
+                    data = Uri.parse("package:$packageName")
+                }
+                applicationContext.startActivity(InstallerIntent)
+            } catch (e: Exception) {
+                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Uninstaller")
+                HiddenApiBypass.invoke(
+                    IPackageInstaller::class.java,
+                    ShizukuPackageInstallerUtils.getPrivilegedPackageInstaller(),
+                    "installExistingPackage",
+                    packageName,
+                    installFlags,
+                    installReason,
+                    intent.intentSender,
+                    0,
+                    null
+                )
+            }
+            
+            //HiddenApiBypass.invoke(
+            //    IPackageInstaller::class.java,
+            //    ShizukuPackageInstallerUtils.getPrivilegedPackageInstaller(),
+            //    "installExistingPackage",
+            //    packageName,
+            //    installFlags,
+            //    installReason,
+            //    intent.intentSender,
+            //    0,
+            //    null
+            //)
             true
         } catch (e: Exception) {
             LogUtils.e(APP_NAME, "Failed to reinstall '$packageName'")

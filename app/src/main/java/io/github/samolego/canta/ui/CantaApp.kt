@@ -312,7 +312,9 @@ private fun MainContent(
                                         }
                                     }
                                     if (settingsViewModel.authEnabled.value) {
-                                        showBiometricPrompt(context) { process() }
+                                        showBiometricPrompt(context) {
+                                            process()
+                                        }
                                     } else {
                                         process()
                                     }
