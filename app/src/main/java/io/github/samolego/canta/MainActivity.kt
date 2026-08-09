@@ -21,6 +21,7 @@ import io.github.samolego.canta.ui.theme.CantaTheme
 import io.github.samolego.canta.util.LogUtils
 import io.github.samolego.canta.util.shizuku.ShizukuPackageInstallerUtils
 import org.lsposed.hiddenapibypass.HiddenApiBypass
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
 import rikka.shizuku.Shizuku
 
@@ -81,6 +82,7 @@ class MainActivity : FragmentActivity() {
     private fun uninstallApp(packageName: String, resetToFactory: Boolean = false): Boolean {
         val packageInfo = packageManager.getInfoForPackage(packageName) ?: return false
         val isSystem = (packageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+        val uriHandler = LocalUriHandler.current
         val hasUpdates =
             (packageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
 
@@ -146,7 +148,7 @@ class MainActivity : FragmentActivity() {
                 val UninstallerIntent = Intent().apply {
                     setPackage("com.rosan.installer")
                     action = Intent.ACTION_DELETE // atau Intent.ACTION_VIEW untuk instalasi
-                    data = UriHandler.parse("package:$packageName")
+                    data = uriHandler.parse("package:$packageName")
                 }
                 applicationContext.startActivity(UninstallerIntent)
             } catch (e: Exception) {
@@ -186,6 +188,7 @@ class MainActivity : FragmentActivity() {
     private fun reinstallApp(packageName: String): Boolean {
         val installReason = PackageManager.INSTALL_REASON_UNKNOWN
         val broadcastIntent = Intent("io.github.samolego.canta.INSTALL_RESULT_ACTION")
+        val uriHandler = LocalUriHandler.current
         val intent =
             PendingIntent.getBroadcast(
                 applicationContext,
@@ -205,7 +208,7 @@ class MainActivity : FragmentActivity() {
                 val InstallerIntent = Intent().apply {
                     setPackage("com.rosan.installer")
                     action = Intent.ACTION_VIEW
-                    data = UriHandler.parse("package:$packageName")
+                    data = uriHandler.parse("package:$packageName")
                 }
                 applicationContext.startActivity(InstallerIntent)
             } catch (e: Exception) {
