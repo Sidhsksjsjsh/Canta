@@ -83,7 +83,7 @@ class MainActivity : FragmentActivity() {
     private fun uninstallApp(packageName: String, resetToFactory: Boolean = false): Boolean {
         val packageInfo = packageManager.getInfoForPackage(packageName) ?: return false
         val isSystem = (packageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_SYSTEM) != 0
-        val uriHandler = LocalUriHandler.current
+        //val uriHandler = LocalUriHandler.current
         val hasUpdates =
             (packageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
 
@@ -189,7 +189,7 @@ class MainActivity : FragmentActivity() {
     private fun reinstallApp(packageName: String): Boolean {
         val installReason = PackageManager.INSTALL_REASON_UNKNOWN
         val broadcastIntent = Intent("io.github.samolego.canta.INSTALL_RESULT_ACTION")
-        val uriHandler = LocalUriHandler.current
+        //val uriHandler = LocalUriHandler.current
         val intent =
             PendingIntent.getBroadcast(
                 applicationContext,
