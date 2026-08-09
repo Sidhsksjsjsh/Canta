@@ -23,6 +23,7 @@ import io.github.samolego.canta.util.shizuku.ShizukuPackageInstallerUtils
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
+import android.net.Uri
 import rikka.shizuku.Shizuku
 
 const val SHIZUKU_PACKAGE_NAME = "moe.shizuku.privileged.api"
@@ -148,7 +149,7 @@ class MainActivity : FragmentActivity() {
                 val UninstallerIntent = Intent().apply {
                     setPackage("com.rosan.installer")
                     action = Intent.ACTION_DELETE // atau Intent.ACTION_VIEW untuk instalasi
-                    data = uriHandler.parse("package:$packageName")
+                    data = Uri.parse("package:$packageName")
                 }
                 applicationContext.startActivity(UninstallerIntent)
             } catch (e: Exception) {
@@ -208,7 +209,7 @@ class MainActivity : FragmentActivity() {
                 val InstallerIntent = Intent().apply {
                     setPackage("com.rosan.installer")
                     action = Intent.ACTION_VIEW
-                    data = uriHandler.parse("package:$packageName")
+                    data = Uri.parse("package:$packageName")
                 }
                 applicationContext.startActivity(InstallerIntent)
             } catch (e: Exception) {
