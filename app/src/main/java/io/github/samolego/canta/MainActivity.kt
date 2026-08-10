@@ -196,14 +196,14 @@ class MainActivity : FragmentActivity() {
                 // 1. Coba delegasikan ke InstallerX
                 val installerIntent = Intent().apply {
                     setPackage(INSTALLERX_PACKAGE)
-                    action = Intent.ACTION_VIEW or Intent.ACTION_INSTALL_PACKAGE
+                    action = Intent.ACTION_VIEW //Intent.ACTION_INSTALL_PACKAGE
                     data = Uri.parse("package:$packageName")
                 }
                 startActivity(installerIntent) // Langsung gunakan startActivity
                 
             } catch (e: ActivityNotFoundException) {
                 // 2. Fallback: Jika InstallerX tidak ditemukan, gunakan mesin Shizuku internal Canta
-                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Installer via Shizuku\n${e.message}")
+                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Installer via Shizuku\n\n${e.message}")
                 HiddenApiBypass.invoke(
                     IPackageInstaller::class.java,
                     ShizukuPackageInstallerUtils.getPrivilegedPackageInstaller(),
