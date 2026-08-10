@@ -1,11 +1,13 @@
 package io.github.samolego.canta
 
 import android.app.PendingIntent
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.IPackageInstaller
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -21,14 +23,14 @@ import io.github.samolego.canta.ui.theme.CantaTheme
 import io.github.samolego.canta.util.LogUtils
 import io.github.samolego.canta.util.shizuku.ShizukuPackageInstallerUtils
 import org.lsposed.hiddenapibypass.HiddenApiBypass
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.UriHandler
-import android.net.Uri
 import rikka.shizuku.Shizuku
 
 const val SHIZUKU_PACKAGE_NAME = "moe.shizuku.privileged.api"
 const val APP_NAME = "Canta | Modified By Fahri"
 const val packageName = "io.github.samolego.canta"
+const val INSTALLERX_PACKAGE = "com.rosan.installer.x.revived" // Pindahkan package name InstallerX ke konstanta agar rapi
+
+//LogUtils.i("Untuk Crush","")
 
 class MainActivity : FragmentActivity() {
 
@@ -76,14 +78,13 @@ class MainActivity : FragmentActivity() {
     }
 
     /**
-     * Uninstalls app using Shizuku.
+     * Uninstalls app using InstallerX or falls back to Shizuku.
      * @param packageName package name of the app to uninstall
      * @param resetToFactory whether to reset system app to factory version before uninstall
      */
     private fun uninstallApp(packageName: String, resetToFactory: Boolean = false): Boolean {
         val packageInfo = packageManager.getInfoForPackage(packageName) ?: return false
         val isSystem = (packageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_SYSTEM) != 0
-        //val uriHandler = LocalUriHandler.current
         val hasUpdates =
             (packageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
 
@@ -112,7 +113,6 @@ class MainActivity : FragmentActivity() {
                     "Attempting to reset system app '$packageName' before uninstalling"
                 )
 
-
                 HiddenApiBypass.invoke(
                     PackageInstaller::class.java,
                     packageInstaller,
@@ -140,20 +140,19 @@ class MainActivity : FragmentActivity() {
             }
         }
 
-
-
         return try {
-
             try {
-                // Membuat Intent untuk memanggil InstallerX
-                val UninstallerIntent = Intent().apply {
-                    setPackage("com.rosan.installer")
-                    action = Intent.ACTION_DELETE // atau Intent.ACTION_VIEW untuk instalasi
+                // 1. Coba delegasikan ke InstallerX
+                val uninstallerIntent = Intent().apply {
+                    setPackage(INSTALLERX_PACKAGE)
+                    action = Intent.ACTION_DELETE
                     data = Uri.parse("package:$packageName")
                 }
-                applicationContext.startActivity(UninstallerIntent)
-            } catch (e: Exception) {
-                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Uninstaller")
+                startActivity(uninstallerIntent) // Langsung gunakan startActivity karena berada di dalam Activity
+                
+            } catch (e: ActivityNotFoundException) {
+                // 2. Fallback: Jika InstallerX tidak ditemukan, eksekusi diam-diam via Shizuku
+                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Uninstaller via Shizuku")
                 HiddenApiBypass.invoke(
                     PackageInstaller::class.java,
                     packageInstaller,
@@ -163,15 +162,6 @@ class MainActivity : FragmentActivity() {
                     intent.intentSender
                 )
             }
-
-            //HiddenApiBypass.invoke(
-            //    PackageInstaller::class.java,
-            //    packageInstaller,
-            //    "uninstall",
-            //    packageName,
-            //    flags,
-            //    intent.intentSender
-            //)
             true
         } catch (e: Exception) {
             LogUtils.e(APP_NAME, "Failed to uninstall '$packageName'")
@@ -182,14 +172,12 @@ class MainActivity : FragmentActivity() {
     }
 
     /**
-     * Reinstalls app using Shizuku. See <a
-     * href="https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/core/java/com/android/server/pm/PackageManagerShellCommand.java;drc=bcb2b436bde55ee40050400783a9c083e77ce2fe;l=1408>PackageManagerShellCommand.java</a>
+     * Reinstalls app using InstallerX or falls back to Shizuku.
      * @param packageName package name of the app to reinstall (must preinstalled on the phone)
      */
     private fun reinstallApp(packageName: String): Boolean {
         val installReason = PackageManager.INSTALL_REASON_UNKNOWN
         val broadcastIntent = Intent("io.github.samolego.canta.INSTALL_RESULT_ACTION")
-        //val uriHandler = LocalUriHandler.current
         val intent =
             PendingIntent.getBroadcast(
                 applicationContext,
@@ -205,15 +193,17 @@ class MainActivity : FragmentActivity() {
 
         return try {
             try {
-                // Membuat Intent untuk memanggil InstallerX
-                val InstallerIntent = Intent().apply {
-                    setPackage("com.rosan.installer")
+                // 1. Coba delegasikan ke InstallerX
+                val installerIntent = Intent().apply {
+                    setPackage(INSTALLERX_PACKAGE)
                     action = Intent.ACTION_VIEW
                     data = Uri.parse("package:$packageName")
                 }
-                applicationContext.startActivity(InstallerIntent)
-            } catch (e: Exception) {
-                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Uninstaller")
+                startActivity(installerIntent) // Langsung gunakan startActivity
+                
+            } catch (e: ActivityNotFoundException) {
+                // 2. Fallback: Jika InstallerX tidak ditemukan, gunakan mesin Shizuku internal Canta
+                LogUtils.e(APP_NAME, "InstallerX belum terpasang di perangkat! Beralih ke Silent Installer via Shizuku")
                 HiddenApiBypass.invoke(
                     IPackageInstaller::class.java,
                     ShizukuPackageInstallerUtils.getPrivilegedPackageInstaller(),
@@ -226,18 +216,6 @@ class MainActivity : FragmentActivity() {
                     null
                 )
             }
-            
-            //HiddenApiBypass.invoke(
-            //    IPackageInstaller::class.java,
-            //    ShizukuPackageInstallerUtils.getPrivilegedPackageInstaller(),
-            //    "installExistingPackage",
-            //    packageName,
-            //    installFlags,
-            //    installReason,
-            //    intent.intentSender,
-            //    0,
-            //    null
-            //)
             true
         } catch (e: Exception) {
             LogUtils.e(APP_NAME, "Failed to reinstall '$packageName'")
@@ -252,8 +230,6 @@ class MainActivity : FragmentActivity() {
         val root = Shizuku.getUid() == 0
         val userId = if (root) android.os.Process.myUserHandle().hashCode() else 0
 
-        // The reason for use "com.android.shell" as installer package under adb is that
-        // getMySessions will check installer package's owner
         return ShizukuPackageInstallerUtils.createPackageInstaller(
             iPackageInstaller,
             "com.android.shell",
