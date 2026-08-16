@@ -26,7 +26,7 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
 
 const val SHIZUKU_PACKAGE_NAME = "moe.shizuku.privileged.api"
-const val APP_NAME = "Canta | Modified By Fahri"
+const val APP_NAME = "Canta | Mod By Fahri"
 const val packageName = "io.github.samolego.canta"
 const val INSTALLERX_PACKAGE = "com.rosan.installer.x.revived" // Pindahkan package name InstallerX ke konstanta agar rapi
 
