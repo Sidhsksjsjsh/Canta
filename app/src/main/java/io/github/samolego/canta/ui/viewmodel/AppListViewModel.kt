@@ -44,7 +44,9 @@ class AppListViewModel : ViewModel() {
     var selectedFilter by mutableStateOf(Filter.any)
 
     val selectedAppsSorted by derivedStateOf {
-        sortedList.filter { selectedApps.contains(it.packageName) }
+        sortedList.filter {
+            selectedApps.contains(it.packageName)
+        }
     }
 
     private val nameComparator = compareBy(Collator.getInstance(Locale.getDefault()), AppInfo::name)
@@ -59,10 +61,11 @@ class AppListViewModel : ViewModel() {
     val appList by derivedStateOf {
         sortedList
                 .filter {
-                    it.name.contains(searchQuery, true) ||
-                            it.packageName.contains(searchQuery, true)
+                    it.name.contains(searchQuery, true) || it.packageName.contains(searchQuery, true)
                 }
-                .filter { it.isSystemApp || !onlySystem }
+                .filter {
+                    it.isSystemApp || !onlySystem
+                }
     }
 
     suspend fun loadInstalled(packageManager: PackageManager, context: Context) {
@@ -73,6 +76,7 @@ class AppListViewModel : ViewModel() {
             val start = System.currentTimeMillis()
             apps = packageManager.getAllPackagesInfo()
             val endPackages = System.currentTimeMillis()
+            LogUtils.i("Intelligence", "Apps successfully connected to the websockets & API")
             LogUtils.i(TAG, "Loaded packages in ${endPackages - start}ms")
             isLoading = false
 

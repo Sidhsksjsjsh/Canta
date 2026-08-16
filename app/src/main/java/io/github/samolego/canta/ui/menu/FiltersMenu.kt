@@ -35,7 +35,9 @@ fun FiltersMenu(
         onDismiss: () -> Unit,
         appListViewModel: AppListViewModel,
 ) {
-    var filtersMenu by remember { mutableStateOf(false) }
+    var filtersMenu by remember {
+        mutableStateOf(false)
+    }
 
     DropdownMenu(
             expanded = showMenu,
@@ -51,8 +53,10 @@ fun FiltersMenu(
         }
         FilterChip(
                 text = stringResource(R.string.only_system),
-                isSelected = appListViewModel.onlySystem,
-                onClick = { toggleSystem(!appListViewModel.onlySystem) },
+                isSelected = false, //appListViewModel.onlySystem,
+                onClick = {
+                    toggleSystem(!appListViewModel.onlySystem)
+                },
                 trailingContent = {
                     Checkbox(
                             checked = appListViewModel.onlySystem,
@@ -65,7 +69,9 @@ fun FiltersMenu(
         FilterChip(
                 text = appListViewModel.selectedFilter.name,
                 isSelected = filtersMenu,
-                onClick = { filtersMenu = !filtersMenu },
+                onClick = {
+                    filtersMenu = !filtersMenu
+                },
                 trailingContent = {
                     Icon(
                             if (filtersMenu) Icons.Default.ArrowDropUp

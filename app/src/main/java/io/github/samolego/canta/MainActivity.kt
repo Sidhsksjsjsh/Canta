@@ -91,7 +91,7 @@ class MainActivity : FragmentActivity() {
         val shouldReset = resetToFactory && isSystem && hasUpdates
         LogUtils.i(
             APP_NAME,
-            "Uninstalling '$packageName' [system: $isSystem, hasUpdates: $hasUpdates, resetFirst: $shouldReset]"
+            "Uninstalling '$packageName' [system : $isSystem | hasUpdates : $hasUpdates | resetFirst : $shouldReset]"
         )
         val broadcastIntent = Intent("io.github.samolego.canta.UNINSTALL_RESULT_ACTION")
         val intent = PendingIntent.getBroadcast(
@@ -125,17 +125,15 @@ class MainActivity : FragmentActivity() {
                 LogUtils.i(APP_NAME, "Successfully reset system app '$packageName'")
 
                 try {
-                    val updatedPackageInfo =
-                        packageManager.getInfoForPackage(packageName) ?: return false
-                    val stillHasUpdates =
-                        (updatedPackageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
-                    LogUtils.i(APP_NAME, "After reset: Package still has updates: $stillHasUpdates")
+                    val updatedPackageInfo = packageManager.getInfoForPackage(packageName) ?: return false
+                    val stillHasUpdates = (updatedPackageInfo.applicationInfo!!.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+                    LogUtils.i(APP_NAME, "After reset : Package still has updates : $stillHasUpdates")
                 } catch (e: Exception) {
-                    LogUtils.e(APP_NAME, "Failed to check update status after reset: ${e.message}")
+                    LogUtils.e(APP_NAME, "Failed to check update status after reset : ${e.message}")
                 }
 
             } catch (e: Exception) {
-                LogUtils.e(APP_NAME, "Failed to reset system app: ${e.message}")
+                LogUtils.e(APP_NAME, "Failed to reset system app : ${e.message}")
                 LogUtils.w(APP_NAME, "Falling back to user uninstall")
             }
         }
@@ -165,7 +163,7 @@ class MainActivity : FragmentActivity() {
             true
         } catch (e: Exception) {
             LogUtils.e(APP_NAME, "Failed to uninstall '$packageName'")
-            LogUtils.e(APP_NAME, "Error: ${e.message}")
+            LogUtils.e(APP_NAME, "Error : ${e.message}")
             e.printStackTrace()
             false
         }
@@ -219,7 +217,7 @@ class MainActivity : FragmentActivity() {
             true
         } catch (e: Exception) {
             LogUtils.e(APP_NAME, "Failed to reinstall '$packageName'")
-            LogUtils.e(APP_NAME, "Error: ${e.message}")
+            LogUtils.e(APP_NAME, "Error : ${e.message}")
             e.printStackTrace()
             false
         }

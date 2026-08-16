@@ -70,9 +70,18 @@ fun SettingsScreen(
     val confirmBeforeUninstall by
             settingsViewModel.confirmBeforeUninstall.collectAsStateWithLifecycle()
 
-    var advancedSettingsExpanded by remember { mutableStateOf(false) }
-    var bloatListUrl by remember { mutableStateOf(settingsViewModel.bloatListUrl.value.let { if (it.isEmpty()) DEFAULT_BLOAT_URL else it }) }
-    var commitsUrl by remember { mutableStateOf(settingsViewModel.commitsUrl.value.let { if (it.isEmpty()) DEFAULT_BLOAT_COMMITS_URL else it }) }
+    var advancedSettingsExpanded by remember {
+        mutableStateOf(false)
+    }
+    
+    var bloatListUrl by remember {
+        mutableStateOf(settingsViewModel.bloatListUrl.value.let { if (it.isEmpty()) DEFAULT_BLOAT_URL else it })
+    }
+    
+    var commitsUrl by remember {
+        mutableStateOf(settingsViewModel.commitsUrl.value.let { if (it.isEmpty()) DEFAULT_BLOAT_COMMITS_URL else it })
+    }
+    
     val allowUnsafe by settingsViewModel.allowUnsafeUninstall.collectAsStateWithLifecycle()
     val hideSuccessDialog by settingsViewModel.hideSuccessDialog.collectAsStateWithLifecycle()
     val authEnabled by settingsViewModel.authEnabled.collectAsStateWithLifecycle()
@@ -83,7 +92,9 @@ fun SettingsScreen(
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 ),
-                title = { Text(stringResource(R.string.settings)) },
+                title = {
+                    Text(stringResource(R.string.settings))
+                },
                 navigationIcon = {
                     IconClickButton(
                         onClick = onNavigateBack,
@@ -259,7 +270,7 @@ fun SettingsScreen(
 
                 // App homepage
                 Text(
-                    text = "https://samolego.github.io/Canta",
+                    text = "https://samolego.github.io/Canta\nThis apps is modified vers, not the original one.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,

@@ -34,7 +34,9 @@ class Filter(
                         Filter(
                             name = entry.toString().lowercase(Locale.ROOT)
                                 .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
-                            shouldShow = { app -> app.removalInfo == entry },
+                            shouldShow = {
+                                app -> app.removalInfo == entry
+                            },
                             removalRecommendation = entry
                         )
                     }.toMutableList()
@@ -44,11 +46,15 @@ class Filter(
             removalFilters.add(1, user)
 
             val unclassified =
-                Filter(name = "Unclassified", shouldShow = { app -> app.removalInfo == null })
+                Filter(name = "Unclassified", shouldShow = {
+                    app -> app.removalInfo == null
+                })
             removalFilters.add(2, unclassified)
 
             // Apps that are disabled
-            val disabled = Filter(name = "Disabled", shouldShow = { app -> app.isDisabled })
+            val disabled = Filter(name = "Disabled", shouldShow = {
+                app -> app.isDisabled
+            })
             removalFilters.add(3, disabled)
 
             availableFilters = removalFilters

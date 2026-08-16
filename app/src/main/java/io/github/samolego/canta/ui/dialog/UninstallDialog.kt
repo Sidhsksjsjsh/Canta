@@ -77,16 +77,16 @@ fun UninstallAppsDialog(
                 horizontalArrangement = Arrangement.End
             ) {
                 TextButton(
+                    onClick = onDismiss
+                ) {
+                    Text(stringResource(R.string.cancel))
+                }
+                TextButton(
                     onClick = {
                         onAgree(resetToFactory)
                     }
                 ) {
                     Text(stringResource(R.string.ok))
-                }
-                TextButton(
-                    onClick = onDismiss
-                ) {
-                    Text(stringResource(R.string.cancel))
                 }
             }
         }
